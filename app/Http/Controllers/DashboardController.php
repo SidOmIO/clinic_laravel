@@ -14,26 +14,61 @@ class DashboardController extends Controller
         }
 
         $user = Auth::user();
-        $appointments = collect(); // Initialize with an empty collection to handle non-patient/non-doctor users
-        $type = '';
+        $appointments = collect();
+        $type = $user->type;
+        $nextAppointment = null;
+        $paymentPending = [];
 
-        if ($user->type === 'patient') {
-            $appointments = Appointment::leftJoin('consultations', 'appointments.id', '=', 'consultations.appointment_id')
-                ->where('appointments.email', $user->email)
-                ->orderBy('appointments.date')
-                ->orderBy('appointments.time')
-                ->get();
-            $type = 'patient';
-        } elseif ($user->type === 'doctor') {
-            $appointments = Appointment::leftJoin('consultations', 'appointments.id', '=', 'consultations.appointment_id')
-                ->select('appointments.*')
-                ->whereNull('consultations.id')
-                ->orderBy('appointments.date')
-                ->orderBy('appointments.time')
-                ->get();
-            $type = 'doctor';
-        } 
-        
-        return view('dashboard', ['appointments' => $appointments, 'type' => $type]);
+        if ($type === 'patient') {
+            $appointments = $this->getPatientAppointments($user->email);
+            $nextAppointment = $this->getNextAppointment($appointments);
+            $paymentPending = $this->getPaymentPending($appointments);
+        } elseif ($type === 'doctor') {
+            $appointments = $this->getDoctorAppointments();
+        }
+
+        return view('dashboard', [
+            'appointments' => $appointments, 
+            'type' => $type, 
+            'nextAppointment' => $nextAppointment, 
+            'paymentPending' => $paymentPending
+        ]);
+    }
+
+    private function getPatientAppointments($email)
+    {
+        return Appointment::leftJoin('consultations', 'appointments.id', '=', 'consultations.appointment_id')
+            ->where('appointments.email', $email)
+            ->orderBy('appointments.date')
+            ->orderBy('appointments.time')
+            ->get();
+    }
+
+    private function getDoctorAppointments()
+    {
+        return Appointment::leftJoin('consultations', 'appointments.id', '=', 'consultations.appointment_id')
+            ->select('appointments.*')
+            ->whereNull('consultations.id')
+            ->orderBy('appointments.date')
+            ->orderBy('appointments.time')
+            ->get();
+    }
+
+    private function getNextAppointment($appointments)
+    {
+        $nextAppointment = null;
+        foreach ($appointments as $appointment) {
+            if (is_null($appointment->id) && (is_null($nextAppointment) || strtotime($appointment->date) < strtotime($nextAppointment->date))) {
+                $nextAppointment = $appointment;
+            }
+        }
+        return $nextAppointment;
+    }
+
+    private function getPaymentPending($appointments)
+    {
+        return $appointments->filter(function($appointment) {
+            return !is_null($appointment->id) && is_null($appointment->payment_id);
+        });
     }
 }

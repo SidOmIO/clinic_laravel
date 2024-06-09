@@ -19,9 +19,9 @@ Route::get('/admin_add', [AdminAddUserController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('admin_add');
 
-Route::get('/appointment', [AppointmentsController::class, 'index'])
+Route::get('/appointments', [AppointmentsController::class, 'index'])
 ->middleware(['auth', 'verified'])
-->name('appointment');
+->name('appointments');
 
 Route::get('/consultation', [ConsultationsController::class, 'index'])
 ->middleware(['auth', 'verified'])
@@ -31,6 +31,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/appointments/add', [AppointmentsController::class, 'add'])->name('appointments.add')->middleware('auth');
+    Route::post('/appointments', [AppointmentsController::class, 'store'])->name('appointments.store')->middleware('auth');
+    Route::get('/appointments/edit/{id}', [AppointmentsController::class, 'edit'])->name('appointments.edit');
+    Route::post('/appointments/update', [AppointmentsController::class, 'update'])->name('appointments.update');
+    Route::delete('/appointments/{id}', [AppointmentsController::class, 'destroy'])->name('appointments.destroy');
+    Route::get('/consultations/{id}', [AppointmentsController::class, 'showConsultation'])->name('consultations.show');
 });
 
 require __DIR__.'/auth.php';

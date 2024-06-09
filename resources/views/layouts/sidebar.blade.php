@@ -25,7 +25,7 @@
                 @endif
                 @if(Auth::user()->type != "doctor")
                     <li class="list">
-                        <a href="{{ route('appointment') }}" class="nav-link">
+                        <a href="{{ route('appointments') }}" class="nav-link">
                             <i class="bx bx-bell icon"></i>
                             <span class="link">Appointment</span>
                         </a>
