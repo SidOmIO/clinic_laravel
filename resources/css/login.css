@@ -10,14 +10,14 @@ body {
 }
 
 .container {
-    width: 300px;
+    width: 350px;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.login-form h2 {
+h2 {
     margin-bottom: 20px;
     text-align: center;
 }
@@ -32,7 +32,7 @@ body {
 }
 
 .form-group input {
-    width: 95%;
+    width: 100%;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -50,4 +50,18 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.login-link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.login-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
 }

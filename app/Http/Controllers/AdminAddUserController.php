@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class AdminAddUserController extends Controller
 {
-    //
+    public function index()
+    {
+        return view('admin.add');
+    }
 }

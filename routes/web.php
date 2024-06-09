@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminAddUserController;
 use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\ConsultationsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StripePaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,17 +16,17 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::get('/admin_add', [AdminAddUserController::class, 'index'])
+Route::get('/admin/add', [AdminAddUserController::class, 'index'])
 ->middleware(['auth', 'verified'])
-->name('admin_add');
+->name('admin/add');
 
 Route::get('/appointments', [AppointmentsController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('appointments');
 
-Route::get('/consultation', [ConsultationsController::class, 'index'])
+Route::get('/consultations', [ConsultationsController::class, 'index'])
 ->middleware(['auth', 'verified'])
-->name('consultation');
+->name('consultations');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,7 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/appointments/edit/{id}', [AppointmentsController::class, 'edit'])->name('appointments.edit');
     Route::post('/appointments/update', [AppointmentsController::class, 'update'])->name('appointments.update');
     Route::delete('/appointments/{id}', [AppointmentsController::class, 'destroy'])->name('appointments.destroy');
-    Route::get('/consultations/{id}', [AppointmentsController::class, 'showConsultation'])->name('consultations.show');
+
+    Route::get('/consultations/remark', [ConsultationsController::class, 'remark'])->name('consultations.remark');
+    Route::post('/consultations/storeRemark', [ConsultationsController::class, 'storeRemark'])->name('consultations.storeRemark')->middleware('auth');
+    Route::get('/consultations/details', [ConsultationsController::class, 'details'])->name('consultations.details');
+    Route::post('/consultations/checkout', [StripePaymentController::class, 'checkout'])->name('consultations.checkout');
+
 });
 
 require __DIR__.'/auth.php';

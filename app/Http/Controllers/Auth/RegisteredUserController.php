@@ -40,13 +40,14 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-            'type' => 'patient',
+            'type' => $request->type ?? "patient",
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
-    }
+        if($request->input('type') == null)
+            return redirect()->route('login')->with('success', 'You are registered successfully!');
+        else 
+            return redirect()->route('dashboard')->with('success', 'User registered successfully!');
+    }   
 }

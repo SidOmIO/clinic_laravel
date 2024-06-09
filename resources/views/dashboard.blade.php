@@ -6,6 +6,7 @@
 
     <section>
         <div class="container">
+            @include('partials.flash')
             @if($type == 'patient')
                 @if($nextAppointment)
                     <div class="remark info">

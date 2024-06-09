@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('patient_email');
             $table->string('doctor_email');
             $table->string('remark');
-            $table->double('total_price');
-            $table->integer('payment_id');
+            $table->double('total_price')->nullable();
+            $table->integer('payment_id')->nullable();
             $table->timestamps();
         });
 

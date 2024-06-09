@@ -17,7 +17,7 @@
                 </li>
                 @if(Auth::user()->type == "admin")
                     <li class="list">
-                        <a href="{{ route('admin_add') }}" class="nav-link">
+                        <a href="{{ route('admin/add') }}" class="nav-link">
                             <i class="bx bx-bar-chart-alt-2 icon"></i>
                             <span class="link">Add New User</span>
                         </a>
@@ -32,7 +32,7 @@
                     </li>
                 @endif
                 <li class="list">
-                    <a href="{{ route('consultation') }}" class="nav-link">
+                    <a href="{{ route('consultations') }}" class="nav-link">
                         <i class="bx bx-message-rounded icon"></i>
                         <span class="link">Consultation</span>
                     </a>

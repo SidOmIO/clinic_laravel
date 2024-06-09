@@ -41,7 +41,7 @@
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                             @else
-                            <a href="{{ route('consultations.show', $appointment->consultation_id) }}" class="btn btn-primary">Consultation Page</a>
+                            <a href="{{ route('consultations.details', ['id' => $appointment->consultation_id, 'email' => $appointment->email]) }}" class="btn btn-primary">Consultation Page</a>
                             @endif
                         </td>
                     </tr>
