@@ -8,6 +8,7 @@ use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Payment;
 use App\Models\Consultation;
+use App\Models\AdminLog;
 use App\Services\EmailService;
 
 class StripePaymentController extends Controller
@@ -79,6 +80,12 @@ class StripePaymentController extends Controller
                 $consultation->payment_id = $payment->id;
                 $consultation->save();
 
+                AdminLog::create([
+                    'action_type' => 'user_payment',
+                    'email' => Auth::user()->email,
+                    'timestamp' => now(),
+                ]);
+    
                 $this->emailService->sendEmail(Auth::user()->email, 'email.payment_title', 'email.payment_body');
 
                 return redirect()->route('consultations.details', ['id' => $consultationId, 'email' => Auth::user()->email])->with('success', 'Payment Successful!');
