@@ -11,6 +11,7 @@
 
     <section>
         <div class="container">
+            @include('partials.flash')
             <br>
             <table class="table table-bordered">
                 <thead class="thead-light">

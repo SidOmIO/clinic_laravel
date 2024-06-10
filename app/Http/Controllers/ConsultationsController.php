@@ -103,10 +103,15 @@ class ConsultationsController extends Controller
 
     public function details(Request $request) {
         $id = $request->query('id');
-        $consultation = Consultation::findOrFail($id);
+        $consultation = Consultation::query()
+        ->leftJoin('payments as p', 'consultations.payment_id', '=', 'p.id')
+        ->join('users as u', 'consultations.patient_email', '=', 'u.email')
+        ->where('consultations.id', $id)
+        ->select('consultations.id', 'consultations.remark', 'consultations.total_price', 'consultations.payment_id', 'p.stripe_id', 'p.updated_at', 'p.email', 'u.name')
+        ->first();
 
         $prescriptions = Prescription::join('medications', 'prescriptions.id', '=', 'medications.id')
-        ->where('consultation_id', $consultation->id)
+        ->where('consultation_id', $id)
         ->get();
 
         return view('consultations.details', [

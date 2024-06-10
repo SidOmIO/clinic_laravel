@@ -6,6 +6,7 @@ use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\ConsultationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripePaymentController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,8 +43,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/consultations/remark', [ConsultationsController::class, 'remark'])->name('consultations.remark');
     Route::post('/consultations/storeRemark', [ConsultationsController::class, 'storeRemark'])->name('consultations.storeRemark')->middleware('auth');
     Route::get('/consultations/details', [ConsultationsController::class, 'details'])->name('consultations.details');
+
     Route::post('/consultations/checkout', [StripePaymentController::class, 'checkout'])->name('consultations.checkout');
     Route::get('/payment/completed', [StripePaymentController::class, 'completed'])->name('payment.completed');
+
+    Route::post('/consultations/invoice', [InvoiceController::class, 'generateInvoice'])->name('invoice.generate');
+
 });
 
 require __DIR__.'/auth.php';

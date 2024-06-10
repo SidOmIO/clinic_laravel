@@ -56,14 +56,14 @@
                 <button type="submit" class="btn btn-primary">Pay Now</button>
             </form>
         @else
-            <form action="{{ route('invoice') }}" method="post" id="invoiceForm">
+            <form action="{{ route('invoice.generate') }}" method="post" id="invoiceForm">
                 @csrf
                 <input type="hidden" name="invNo" value="{{ $consultation->payment_id }}">
-                <input type="hidden" name="date" value="{{ $consultation->date }}">
+                <input type="hidden" name="date" value="{{ $consultation->updated_at }}">
                 <input type="hidden" name="email" value="{{ $consultation->email }}">
                 <input type="hidden" name="name" value="{{ $consultation->name }}">
                 @foreach($prescriptions as $index => $prescription)
-                    <input type="hidden" name="items[{{ $index }}][name]" value="{{ $prescription->medication }}">
+                    <input type="hidden" name="items[{{ $index }}][name]" value="{{ $prescription->name }}">
                     <input type="hidden" name="items[{{ $index }}][price]" value="{{ $prescription->price }}">
                     <input type="hidden" name="items[{{ $index }}][quantity]" value="{{ $prescription->quantity }}">
                 @endforeach
