@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/consultations/storeRemark', [ConsultationsController::class, 'storeRemark'])->name('consultations.storeRemark')->middleware('auth');
     Route::get('/consultations/details', [ConsultationsController::class, 'details'])->name('consultations.details');
     Route::post('/consultations/checkout', [StripePaymentController::class, 'checkout'])->name('consultations.checkout');
-
+    Route::get('/payment/completed', [StripePaymentController::class, 'completed'])->name('payment.completed');
 });
 
 require __DIR__.'/auth.php';

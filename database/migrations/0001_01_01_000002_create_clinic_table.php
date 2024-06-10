@@ -42,8 +42,8 @@ return new class extends Migration
             $table->id();
             $table->string('consultation_id');
             $table->string('stripe_id');
-            $table->date('date');
             $table->string('email');
+            $table->timestamps();
         });
 
         Schema::create('prescriptions', function (Blueprint $table) {
