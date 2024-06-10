@@ -6,9 +6,9 @@
 The following tools were used in this project:
 
 - [PHP](https://www.php.net)
+- [Node](https://nodejs.org/)
+- [Laravel](https://laravel.com)
 - [Maildev](https://github.com/maildev/maildev)
-- [PHPMailer](https://github.com/PHPMailer/PHPMailer)
-- [PhpDotEnv](https://github.com/vlucas/phpdotenv)
 - [Dompdf](https://github.com/dompdf/dompdf)
 - [Stripe API](https://github.com/stripe/stripe-php)
 
@@ -19,7 +19,7 @@ The following tools were used in this project:
 
 ## Requirements ##
 
-Before starting, you need to have [Composer](https://getcomposer.org) installed.
+Before starting, you need to have [PHP](https://www.php.net), [Composer](https://getcomposer.org), [Node](https://nodejs.org/) installed.
 
 ## Starting ##
 
@@ -31,8 +31,15 @@ Access
 Install dependencies
 - composer install
 
-php artisan migrate:fresh
-php artisan db:seed
+Create Database
+- php artisan migrate:fresh
+
+Populate Database
+- php artisan db:seed
+
+Run
+- npm run dev
+- php artisan serve
 
 Install Maildev for email testing (Easier if install using Docker)
 
